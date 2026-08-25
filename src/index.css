@@ -1,0 +1,445 @@
+/* ---------------------------------------------------------------------
+   Design tokens
+   Concept: the visual language of a nutrition-facts panel, repurposed
+   as a trustworthy, regulatory-feeling interface for allergen results.
+   Thick rules, tabular numerals, stamped verdict blocks.
+------------------------------------------------------------------------ */
+:root {
+  --paper: #eeeee2;
+  --paper-raised: #f6f5ec;
+  --ink: #1b2b22;
+  --ink-soft: #46564c;
+  --line: #1b2b22;
+  --accent-sage: #5c7f6f;
+
+  --safe: #2f6b4f;
+  --safe-bg: #dfeee4;
+  --caution: #a9711f;
+  --caution-bg: #f4e6cb;
+  --unsafe: #a3352a;
+  --unsafe-bg: #f5dcd8;
+
+  --display-font: "Fraunces", Georgia, serif;
+  --body-font: "IBM Plex Sans", system-ui, sans-serif;
+  --mono-font: "IBM Plex Mono", monospace;
+
+  --radius: 2px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body-font);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.app-shell {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+}
+
+/* ---------------- Header / masthead ---------------- */
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 3px solid var(--line);
+  padding-bottom: 14px;
+  margin-bottom: 8px;
+}
+
+.masthead .wordmark {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: -0.01em;
+}
+
+.masthead .wordmark span {
+  color: var(--accent-sage);
+}
+
+.masthead .tagline {
+  font-family: var(--mono-font);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+/* ---------------- Step indicator ---------------- */
+.step-row {
+  display: flex;
+  gap: 6px;
+  font-family: var(--mono-font);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin: 18px 0 24px;
+}
+
+.step-row .step {
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.step-row .step.active {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+/* ---------------- Hero ---------------- */
+.hero {
+  padding: 34px 0 18px;
+}
+
+.hero h1 {
+  font-family: var(--display-font);
+  font-weight: 600;
+  font-size: clamp(34px, 6vw, 52px);
+  line-height: 1.02;
+  margin: 0 0 14px;
+  max-width: 11ch;
+}
+
+.hero p {
+  font-size: 16px;
+  color: var(--ink-soft);
+  max-width: 46ch;
+  line-height: 1.5;
+  margin: 0 0 26px;
+}
+
+/* ---------------- Nutrition-label style panel (signature element) ------ */
+.label-panel {
+  border: 3px solid var(--line);
+  background: var(--paper-raised);
+  padding: 18px 20px;
+  border-radius: var(--radius);
+}
+
+.label-panel .panel-title {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 26px;
+  border-bottom: 8px solid var(--line);
+  padding-bottom: 8px;
+  margin: 0 0 8px;
+}
+
+.label-panel .panel-subrule {
+  border-bottom: 4px solid var(--line);
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  font-family: var(--mono-font);
+  font-size: 12px;
+}
+
+.thin-rule {
+  border: none;
+  border-top: 1px solid var(--ink);
+  opacity: 0.35;
+  margin: 10px 0;
+}
+
+/* ---------------- Buttons ---------------- */
+.btn {
+  font-family: var(--mono-font);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 13px 22px;
+  border: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* ---------------- Allergen checklist ---------------- */
+.allergen-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 18px 0;
+}
+
+@media (max-width: 520px) {
+  .allergen-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.allergen-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid var(--ink);
+  padding: 11px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  background: var(--paper-raised);
+  font-size: 14px;
+  user-select: none;
+}
+
+.allergen-chip.selected {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.allergen-chip .severity-tag {
+  margin-left: auto;
+  font-family: var(--mono-font);
+  font-size: 10px;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+/* ---------------- Scanner / upload ---------------- */
+.dropzone {
+  border: 3px dashed var(--ink);
+  border-radius: var(--radius);
+  padding: 46px 20px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--paper-raised);
+  position: relative;
+  overflow: hidden;
+}
+
+.dropzone p {
+  font-family: var(--mono-font);
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 6px 0 0;
+}
+
+.dropzone .dz-title {
+  font-family: var(--display-font);
+  font-size: 20px;
+  margin: 0;
+}
+
+.preview-wrap {
+  position: relative;
+  border: 3px solid var(--ink);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.preview-wrap img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+}
+
+/* Signature scan-line animation while processing */
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-sage) 20%,
+    #fff 50%,
+    var(--accent-sage) 80%,
+    transparent
+  );
+  box-shadow: 0 0 12px 2px var(--accent-sage);
+  animation: scan-move 1.6s ease-in-out infinite;
+}
+
+@keyframes scan-move {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: 96%;
+  }
+  100% {
+    top: 0%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan-line {
+    animation: none;
+    top: 50%;
+  }
+}
+
+.processing-note {
+  font-family: var(--mono-font);
+  font-size: 12px;
+  color: var(--ink-soft);
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ---------------- Verdict banner ---------------- */
+.verdict-banner {
+  border: 3px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.verdict-banner .verdict-mark {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.verdict-banner .verdict-copy {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.verdict-banner.unsafe {
+  background: var(--unsafe-bg);
+  border-color: var(--unsafe);
+  color: var(--unsafe);
+}
+.verdict-banner.caution {
+  background: var(--caution-bg);
+  border-color: var(--caution);
+  color: var(--caution);
+}
+.verdict-banner.safe {
+  background: var(--safe-bg);
+  border-color: var(--safe);
+  color: var(--safe);
+}
+
+/* ---------------- Ingredient list ---------------- */
+.ingredient-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 2px solid var(--ink);
+}
+
+.ingredient-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 4px;
+  border-bottom: 1px solid rgba(27, 43, 34, 0.2);
+  font-size: 14px;
+}
+
+.ingredient-row .ing-text {
+  flex: 1;
+}
+
+.ingredient-row .ing-note {
+  font-family: var(--mono-font);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.ing-note.unsafe {
+  background: var(--unsafe-bg);
+  color: var(--unsafe);
+}
+.ing-note.caution {
+  background: var(--caution-bg);
+  color: var(--caution);
+}
+.ing-note.safe {
+  background: var(--safe-bg);
+  color: var(--safe);
+}
+
+/* ---------------- Misc ---------------- */
+.error-box {
+  border: 2px solid var(--unsafe);
+  background: var(--unsafe-bg);
+  color: var(--unsafe);
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.footnote {
+  font-family: var(--mono-font);
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-top: 40px;
+  border-top: 1px solid rgba(27, 43, 34, 0.3);
+  padding-top: 14px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--accent-sage);
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: var(--body-font);
+  font-size: 14px;
+  padding: 0;
+}
